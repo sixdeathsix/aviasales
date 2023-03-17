@@ -23,7 +23,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet" crossorigin="anonymous">
   <link rel="stylesheet" href="../assets/css/style.css" crossorigin="anonymous">
   <script defer src="../assets/js/to-image.js"></script>
-  <script defer src="../assets/js/mask.js"></script>
   <script defer src="../assets/js/app.js"></script>
   <title><?= $title; ?></title>
 </head>

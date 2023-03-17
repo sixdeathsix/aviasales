@@ -13,7 +13,6 @@
 
   if ($users) {
     $pagination = $mtd->pagination($users, 10, $_GET['page']);
-
     $users = $pagination['array'];
     $pages = $pagination['pages'];
   }
@@ -49,7 +48,7 @@
             <div><?= $user['surname']; ?> <?= $user['name']; ?> <?= $user['patronymic']; ?></div>
 
             <div class="df">
-              <a href="orders-users-page.php?id=<?= $user['user_id']; ?>">
+              <a href="orders-users-page.php/<?= $user['user_id']; ?>?page=1">
                 <button class="btn-form">История</button>
               </a>
               <a href="update-users-page.php?id=<?= $user['user_id']; ?>">
@@ -66,16 +65,8 @@
       <?php else: ?>
         <h1 class='empty'>Нет данных</h1>
       <? endif; ?>
-      
-      <div class="pages">
-        <?php for($i = 1; $i <= $pages; $i++): ?>
-          <a 
-            class="page-number <?= $_GET['page'] == $i ? 'selected' : '' ?>"
-            href="<?= $url; ?>?page=<?= $i ?>">
-            <?= $i ?>
-          </a>
-        <?php endfor; ?>
-      </div>
+
+      <?php require_once 'templates/pages.php'; ?>
 
     </main>
 

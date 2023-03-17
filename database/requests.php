@@ -1,35 +1,35 @@
 <?php 
 
   session_start();
-  // шаблон для получения большого количества данных из базы
+
   function getAll($string) {
 
     require 'connect.php';
 
     $data = mysqli_query($connect, $string);
 
-    if (mysqli_num_rows($data) > 0) { // проверяем пришли ли нам данные с базы данных
+    if (mysqli_num_rows($data) > 0) {
       return mysqli_fetch_all($data, MYSQLI_ASSOC);
     } else {
       return false;
     }
 
   }
-  // шаблон для получения данных в единичном экземпляре
+
   function getOne($string) {
     
     require 'connect.php';
 
     $data = mysqli_query($connect, $string);
 
-    if (mysqli_num_rows($data) > 0) { // проверяем пришли ли нам данные с базы данных
+    if (mysqli_num_rows($data) > 0) {
       return mysqli_fetch_assoc($data);
     } else {
       return false;
     }
     
   }
-  // шаблон для запросов insert, update, delete
+
   function operation($string) {
 
     require 'connect.php';
@@ -38,10 +38,8 @@
 
   }
 
-  $url = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
-
   class ApiProvider
-  { 
+  {
 
     public function getUserById($id) {
       
@@ -58,14 +56,14 @@
       ");
 
     }
-    // авторизация
+
     public function auth($login, $password) {
 
-      $user = $this->getUserByLogin($login);  // получаем данные пользователя по полученному логину
+      $user = $this->getUserByLogin($login);
 
-      $verify = password_verify($password, $user['password']); // сравниваем с паролем из базы
+      $verify = password_verify($password, $user['password']);
 
-      if($verify) { // если пароли совпали сохраняем пользователя в сессию и авторизуем его
+      if($verify) {
   
         $_SESSION['user'] = [
           'id' => $user['user_id'],
@@ -80,28 +78,27 @@
   
         header('Location: ../index.php');
   
-      } else { // если не совпали показываем сообщение об ошибке
+      } else {
         $_SESSION['message'] = 'Ошибка авторизации';
         header('Location: ../auth-page.php');
       }
 
     }
-    // регистрация
+
     public function register($surname, $name, $patronymic, $email, $phone, $login, $password, $password_confirm) {
 
-      $login_isset = $this->getUserByLogin($login); // проверяем есть ли пользователь с таким логином в базе
+      $login_isset = $this->getUserByLogin($login);
 
-      if ($login_isset)  { // если есть показываем ошибку
+      if ($login_isset)  {
         $_SESSION['message'] = 'Пользователь с таким логином уже зарегистрирован';
         header('Location: ../register-page.php');
       } else {
 
-        if($password == $password_confirm) { // проверяем совпадают ли введенные пользователем пароли
+        if($password == $password_confirm) {
 
-          $phone = '+7'.$phone;
           $roleId  = 1;
           $password = password_hash($password, PASSWORD_DEFAULT);
-          // добавляем пользователя в базу
+
           $success = operation("
             insert into users values
             (null, '$surname', '$name', '$patronymic', '$email', '$phone', '$login', '$password', '$roleId')
@@ -123,7 +120,7 @@
       }
 
     }
-    // получаем всех пользователей
+
     public function getAllUsers() {
     
       return getAll("
@@ -133,7 +130,7 @@
 
     }
 
-    public function getAllFlights() {
+    public function getAllFlights($status) {
       return getAll("
         select f.flight_id, f.scheduled_departure, f.scheduled_arrival, 
         da.airport_name as d_name, da.airport_code as d_code, 
@@ -148,10 +145,32 @@
         left join airports da on da.airport_id = f.departure_airport
         left join airports aa on aa.airport_id = f.arrival_airport
         left join statuses s on s.status_id = f.status_id
-        left join aircrafts a on a.aircraft_id = f.aircraft_id;
+        left join aircrafts a on a.aircraft_id = f.aircraft_id
+        where s.status like '%$status%'
       ");
     }
-    // получаем все роли пользователей
+
+    public function getAllFlightsWithDate($status, $start, $end) {
+        return getAll("
+          select f.flight_id, f.scheduled_departure, f.scheduled_arrival, 
+          da.airport_name as d_name, da.airport_code as d_code, 
+          aa.airport_name as a_name, aa.airport_code as a_code,
+          s.status, a.model, f.price, 
+          (select count(ticket_id) from tickets t
+          left join bookings b on b.book_id = t.book_id
+          where b.flight_id = f.flight_id and f.status_id = '3') as sold,
+          (select count(book_id) from bookings 
+          where flight_id = f.flight_id and f.status_id = '1') as booked 
+          from flights f
+          left join airports da on da.airport_id = f.departure_airport
+          left join airports aa on aa.airport_id = f.arrival_airport
+          left join statuses s on s.status_id = f.status_id
+          left join aircrafts a on a.aircraft_id = f.aircraft_id
+          where s.status like '%$status%' 
+          and f.scheduled_arrival between '$start' and '$end'
+        ");
+    }
+
     public function getAllRoles() {
       
       return getAll("
@@ -159,7 +178,7 @@
       ");
 
     }
-    // удаление пользователя
+
     public function deleteUser($id) { 
       
       $success = operation("
@@ -176,15 +195,15 @@
       header('Location: ../admin-users-page.php?page=1');
 
     }
-    // обновление данных пользователя
+
     public function updateUser($surname, $name, $patronymic, $email, $phone, $login, $password, $role, $user_id) {
       
-      $user = $this->getUserById($user_id); // получаем данные пользователя по его айди
+      $user = $this->getUserById($user_id);
         
-      if ($password != $user['password']) { // проверяем изменялся ли пароль при редактировании
+      if ($password != $user['password']) {
         $password = password_hash($password, PASSWORD_DEFAULT);
       }
-      // запрос на смену данных
+
       $success = operation(" 
         update users set surname = '$surname', 
         name = '$name',
@@ -206,14 +225,14 @@
       header('Location: ../admin-users-page.php');
 
     }
-    // получаем все аэропорты
+
     public function getAllAirports() {
       return getAll("
         select a.airport_id, a.airport_name, c.city, a.airport_code from airports a 
         left join cities c on c.city_id = a.city_id;
       ");
     }
-    // получаем все классы(эконом, бизнес-класс, первый класс)
+
     public function getAllClasses() {
       return getAll("
         select * from classes order by class_id desc
@@ -225,7 +244,7 @@
         select * from genders
       ");
     }
-    // получаем список рейсов
+
     public function getFlight($from, $to, $date) {
       return getAll("
         select f.flight_id,f.scheduled_departure, f.scheduled_arrival,
@@ -245,7 +264,7 @@
       ");
 
     }
-    // формируем список рейсов туда-обратно
+
     public function getFromToFlight($from, $to, $there_date, $back_date, $class) {
 
       unset($_SESSION['flights']);
@@ -358,12 +377,12 @@
 
     }
 
-    public function getHistoryBookings($user_id) {
+    public function getHistoryBookings($user_id, $status) {
       return getAll("
         select b.flight_id, 
         from_a.airport_name as from_a, from_a.airport_code as from_n, 
         to_a.airport_name as to_a, to_a.airport_code as to_n,
-        b.booking_date, f.scheduled_departure, 
+        b.booking_date, f.scheduled_arrival, 
         c.class, c.class_code, s.status, count(b.flight_id) as count,
         b.total_amount, t.ticket_id from bookings b 
         left join flights f on f.flight_id = b.flight_id
@@ -373,10 +392,32 @@
         left join users u on u.user_id = b.user_id
         left join statuses s on s.status_id = f.status_id
         left join classes c on c.class_id = b.class_id
-        where b.user_id = '$user_id' and f.status_id != '1'
+        where b.user_id = '$user_id' and f.status_id != '1' and s.status like '%$status%'
         group by b.flight_id
         order by b.booking_date desc
       ");
+    }
+
+    public function getHistoryBookingsWithDate($user_id, $status, $start, $end) {
+        return getAll("
+          select b.flight_id, 
+          from_a.airport_name as from_a, from_a.airport_code as from_n, 
+          to_a.airport_name as to_a, to_a.airport_code as to_n,
+          b.booking_date, f.scheduled_arrival, 
+          c.class, c.class_code, s.status, count(b.flight_id) as count,
+          b.total_amount, t.ticket_id from bookings b 
+          left join flights f on f.flight_id = b.flight_id
+          left join airports from_a on from_a.airport_id = f.departure_airport
+          left join airports to_a on to_a.airport_id = f.arrival_airport
+          left join tickets t on t.book_id = b.book_id
+          left join users u on u.user_id = b.user_id
+          left join statuses s on s.status_id = f.status_id
+          left join classes c on c.class_id = b.class_id
+          where b.user_id = '$user_id' and f.status_id != '1' and s.status like '%$status%'
+          and f.scheduled_arrival between '$start' and '$end'
+          group by b.flight_id
+          order by b.booking_date desc
+        ");
     }
 
     public function getActiveBookings($user_id) {

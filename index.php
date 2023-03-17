@@ -15,7 +15,7 @@
 
   <?php require_once 'templates/header.php'; ?>
 
-  <div class='main'>
+  <div id="search-main" class='main'>
     
     <div class="container">
       
@@ -58,7 +58,7 @@
       <div class="price-map-block">
         <p class='price-map-subtitle'>Карта цен</p>
         <p class='price-map-title'>Найдите билеты по лучшей цене</p>
-        <a href="" class='price-map-btn'>Смотреть карту</a>
+        <a href="#search-main" class='price-map-btn'>Найти билеты</a>
       </div>
     </div>
 
@@ -112,12 +112,14 @@
       </div>
 
       <div class="where-left">
-        <a class='where-btn' href="">Выбрать город</a>
+        <a class='where-btn' href="#search-main">Выбрать город</a>
       </div>
 
     </div>
 
   </div>
+
+  <div class="btn-up btn-up_hide"></div>
 
   <?php require_once 'templates/footer.php'; ?>
 

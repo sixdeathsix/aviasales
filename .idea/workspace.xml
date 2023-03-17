@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="dc845dea-0b3d-415f-8d6a-4236d7f90d3f" name="Changes" comment="first commit">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/pages.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/status-filter.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/user-history.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-flights-page.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin-flights-page.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin-users-page.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin-users-page.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/js/mask.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/aviasales.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/requests.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/requests.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/methods.php" beforeDir="false" afterPath="$PROJECT_DIR$/functions/methods.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/history-page.php" beforeDir="false" afterPath="$PROJECT_DIR$/history-page.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/orders-users-page.php" beforeDir="false" afterPath="$PROJECT_DIR$/orders-users-page.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/profile-page.php" beforeDir="false" afterPath="$PROJECT_DIR$/profile-page.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/head.php" beforeDir="false" afterPath="$PROJECT_DIR$/templates/head.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/profile.php" beforeDir="false" afterPath="$PROJECT_DIR$/templates/profile.php" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
+  </component>
+  <component name="ProjectId" id="2Lm7vaHC6QGScLJDOrf37ALWDUa" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/OSPanel/domains/aviasales&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;settings.sync&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="dc845dea-0b3d-415f-8d6a-4236d7f90d3f" name="Changes" comment="" />
+      <created>1676464638767</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1676464638767</updated>
+      <workItem from="1676464639950" duration="19000" />
+      <workItem from="1676464677396" duration="170000" />
+      <workItem from="1676549201893" duration="782000" />
+      <workItem from="1678892697509" duration="8644000" />
+      <workItem from="1678915032220" duration="598000" />
+      <workItem from="1678947601484" duration="4197000" />
+      <workItem from="1678984755100" duration="3871000" />
+      <workItem from="1679081497715" duration="2235000" />
+    </task>
+    <task id="LOCAL-00001" summary="first commit">
+      <created>1676549688166</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1676549688166</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <ignored-roots>
+      <path value="$PROJECT_DIR$" />
+    </ignored-roots>
+    <MESSAGE value="first commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="first commit" />
+  </component>
+</project>

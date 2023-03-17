@@ -9,13 +9,32 @@
   require_once 'functions/methods.php';
   require_once 'templates/notification.php';
 
-  $flights = $provider->getAllFlights();
+  $flights = $provider->getAllFlights($_SESSION['admin-status']);
 
   if ($flights) {
     $pagination = $mtd->pagination($flights, 10, $_GET['page']);
 
     $flights = $pagination['array'];
     $pages = $pagination['pages'];
+  }
+
+  if (isset($_POST['sort'])) {
+      $_SESSION['admin-status'] = $_POST['sort'];
+      $flights = $provider->getAllFlights($_SESSION['admin-status']);
+      $pagination = $mtd->pagination($flights, 10, $_GET['page']);
+      $flights = $pagination['array'];
+      $pages = $pagination['pages'];
+      unset($_POST['sort']);
+  }
+
+  if (isset($_POST['start'], $_POST['end'])) {
+      $_SESSION['admin-status'] = $_POST['sort'];
+      $flights = $provider->getAllFlightsWithDate($_SESSION['admin-status'], $_POST['start'], $_POST['end']);
+      $pagination = $mtd->pagination($flights, 10, $_GET['page']);
+      $flights = $pagination['array'];
+      $pages = $pagination['pages'];
+      unset($_POST['start']);
+      unset($_POST['end']);
   }
 
   if(isset($_POST['delete'])) {
@@ -49,6 +68,37 @@
         <a href="add-flight-page.php">
           <button class="btn">Создать рейс</button>
         </a>
+      </div>
+
+      <div class="df w-90 jcsb">
+
+          <form method="post">
+              <input name="start" type="date">
+              <span> - </span>
+              <input name="end" type="date">
+              <button>обновить</button>
+          </form>
+
+          <form method="post">
+              <select name="sort" onchange="this.form.submit()">
+                  <option value="" hidden>
+                      <?php if($_SESSION['status'] == 'Landed'): ?>
+                          Закрыт
+                      <?php elseif($_SESSION['status'] == 'Cancelled'): ?>
+                          Отменен
+                      <?php elseif($_SESSION['status'] == 'Check-in'): ?>
+                          Новый
+                      <?php elseif($_SESSION['status'] == ''): ?>
+                          Все
+                      <?php endif; ?>
+                  </option>
+                  <option value="">Все</option>
+                  <option value="Landed">Закрыт</option>
+                  <option value="Cancelled">Отменен</option>
+                  <option value="Check-in">Новый</option>
+              </select>
+          </form>
+
       </div>
 
       <div class="history-mobile">
@@ -124,15 +174,7 @@
 
       <?php endif; ?>
 
-      <div class="pages">
-        <?php for($i = 1; $i <= $pages; $i++): ?>
-          <a 
-            class="page-number <?= $_GET['page'] == $i ? 'selected' : '' ?>"
-            href="<?= $url; ?>?page=<?= $i ?>">
-            <?= $i ?>
-          </a>
-        <?php endfor; ?>
-      </div>
+      <?php require_once 'templates/pages.php'; ?>
 
     </main>
 

@@ -22,7 +22,7 @@
   </div>
 
   <form action="database/logout.php" method='post'>
-    <button class='btn w-full'><a href="database/logout.php">Выйти</a></button>
+    <button class='btn w-full'><a class="logout" href="database/logout.php">Выйти</a></button>
   </form>
 
 </div>

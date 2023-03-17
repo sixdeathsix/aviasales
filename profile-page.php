@@ -96,15 +96,7 @@
 
       <?php endif; ?>
 
-      <div class="pages">
-        <?php for($i = 1; $i <= $pages; $i++): ?>
-          <a 
-            class="page-number <?= $_GET['page'] == $i ? 'selected' : '' ?>"
-            href="<?= $url; ?>?page=<?= $i ?>">
-            <?= $i ?>
-          </a>
-        <?php endfor; ?>
-      </div>
+      <?php require_once 'templates/pages.php'; ?>
 
       </div>
 

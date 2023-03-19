@@ -118,6 +118,7 @@
             <th>Отправление</th>
             <th>Статус</th>
             <th>П/З*</th>
+            <th></th>
           </tr>
 
           <?php foreach($flights as $item): ?>
@@ -159,7 +160,10 @@
 
               </td>
               <td>
-              <?= $item['sold'] ?>/<?= $item['booked'] ?>
+                <?= $item['sold'] ?>/<?= $item['booked'] ?>
+              </td>
+              <td>
+                  <a href="flight-pass-page.php/<?= $item['flight_id'] ?>">&#128209;</a>
               </td>
             </tr>
           <?php endforeach; ?>

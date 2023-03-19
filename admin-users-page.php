@@ -48,6 +48,9 @@
             <div><?= $user['surname']; ?> <?= $user['name']; ?> <?= $user['patronymic']; ?></div>
 
             <div class="df">
+              <a href="bookings-user-page.php/<?= $user['user_id']; ?>?page=1">
+                <button class="btn-form">Бронь</button>
+              </a>
               <a href="orders-users-page.php/<?= $user['user_id']; ?>?page=1">
                 <button class="btn-form">История</button>
               </a>

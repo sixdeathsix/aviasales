@@ -563,6 +563,14 @@
       header('Location: ../admin-flights-page.php?page=1');
     }
 
+    public function getPassFromFlight($flight_id) {
+        return getAll("
+            select b.surname, b.name, b.patronymic, b.contact_email, b.contact_phone, c.class from bookings b
+            left join classes c on c.class_id = b.class_id
+            where b.flight_id = '$flight_id';
+        ");
+    }
+
   }
 
   $provider = new ApiProvider();

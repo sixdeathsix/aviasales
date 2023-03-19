@@ -5,7 +5,9 @@ let dateSearchInput = document.querySelectorAll('.date-serach-input');
 let countInput = document.querySelectorAll('.ticket-count');
 let phones = document.querySelectorAll('.phone');
 let passport = document.querySelectorAll('.passport');
+let birthCertificate = document.querySelector('.birth-certificate');
 let btnUp = document.querySelector('.btn-up');
+let checkbox = document.querySelectorAll('.is-small-baby');
 
 btn.addEventListener('click', () => menu.classList.toggle('trans'));
 
@@ -114,6 +116,20 @@ function inputpassport(e, passport){
     stop(e)
   }
 
+}
+
+for (let i = 0; i <= checkbox.length; i++) {
+  checkbox[i].addEventListener('change', function() {
+    if (this.checked) {
+      document.querySelectorAll('.passport-checkout')[i].classList.add('none');
+      document.querySelectorAll('.passport-checkout')[i].disabled = true;
+      document.querySelectorAll('.birth-certificate')[i].classList.remove('none');
+    } else {
+      document.querySelectorAll('.birth-certificate')[i].classList.add('none');
+      document.querySelectorAll('.birth-certificate')[i].disabled = true;
+      document.querySelectorAll('.passport-checkout')[i].classList.remove('none');
+    }
+  });
 }
 
 window.addEventListener('scroll', () => {

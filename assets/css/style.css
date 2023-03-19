@@ -1017,6 +1017,10 @@ button:hover a.logout {
     width: 65%;
   }
 
+  main {
+    width: 70%;
+  }
+
 }
 
 @media screen and (max-width: 1024px) {
@@ -1339,6 +1343,15 @@ button:hover a.logout {
 
   .price-map-title {
     font-size: 24px;
+  }
+
+  .admin-user-page {
+    flex-wrap: wrap;
+  }
+
+  .admin-user-page > div {
+    width: 100%;
+    text-align: center;
   }
   
 }

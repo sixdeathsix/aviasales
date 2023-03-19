@@ -78,7 +78,12 @@
               <?php endforeach; ?>
             </select>
             <input class="checkout-input date-input" type="text" name='date <?= $i?>' placeholder='Дата рождения' required>
-            <input class="checkout-input passport" type="text" name='document <?= $i?>' placeholder='Серия и номер паспорта' maxlength="12" required>
+            <input class="checkout-input passport passport-checkout" type="text" name='document <?= $i?>' placeholder='Серия и номер паспорта' maxlength="12" required>
+            <input class="checkout-input birth-certificate none" type="text" name='document <?= $i?>' placeholder='Номер свидетельства о рождении' maxlength="15" required>
+            <div>
+                <input class="is-small-baby" type="checkbox">
+                <span>Несовершеннолетний пассажир</span>
+            </div>
           </div>
         </div>
       <?php endfor; ?>

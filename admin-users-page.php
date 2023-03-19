@@ -43,7 +43,7 @@
       <?php if($users): ?>
 
         <?php foreach($users as $user): ?>
-          <div class="w-full padding border border-radius m-5 df jcsb aic">
+          <div class="w-full padding border border-radius m-5 df jcsb aic admin-user-page">
 
             <div><?= $user['surname']; ?> <?= $user['name']; ?> <?= $user['patronymic']; ?></div>
 

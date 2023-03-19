@@ -5,7 +5,7 @@ require_once 'database/requests.php';
 require_once 'functions/methods.php';
 require_once 'templates/notification.php';
 
-if(!$_SESSION['user']) {
+if($_SESSION['user']['role'] != 3) {
     header('Location: index.php');
 }
 
@@ -35,7 +35,7 @@ if ($history) {
 
     <div class="profile">
 
-        <?php require_once 'templates/profile.php'; ?>
+        <?php require_once 'templates/aside.php'; ?>
 
         <div class="profile-orders">
 

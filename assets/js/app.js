@@ -5,7 +5,8 @@ let dateSearchInput = document.querySelectorAll('.date-serach-input');
 let countInput = document.querySelectorAll('.ticket-count');
 let phones = document.querySelectorAll('.phone');
 let passport = document.querySelectorAll('.passport');
-let birthCertificate = document.querySelector('.birth-certificate');
+let birthCertificate = document.querySelectorAll('.birth-certificate');
+let passportCheckout = document.querySelectorAll('.passport-checkout');
 let btnUp = document.querySelector('.btn-up');
 let checkbox = document.querySelectorAll('.is-small-baby');
 
@@ -119,15 +120,25 @@ function inputpassport(e, passport){
 }
 
 for (let i = 0; i <= checkbox.length; i++) {
+  birthCertificate[i].disabled = true;
+  birthCertificate[i].required = false;
+  passportCheckout[i].disabled = false;
+  passportCheckout[i].required = true;
   checkbox[i].addEventListener('change', function() {
     if (this.checked) {
-      document.querySelectorAll('.passport-checkout')[i].classList.add('none');
-      document.querySelectorAll('.passport-checkout')[i].disabled = true;
-      document.querySelectorAll('.birth-certificate')[i].classList.remove('none');
+      passportCheckout[i].classList.add('none');
+      passportCheckout[i].disabled = true;
+      passportCheckout[i].required = false;
+      birthCertificate[i].classList.remove('none');
+      birthCertificate[i].disabled = false;
+      birthCertificate[i].required = true;
     } else {
-      document.querySelectorAll('.birth-certificate')[i].classList.add('none');
-      document.querySelectorAll('.birth-certificate')[i].disabled = true;
-      document.querySelectorAll('.passport-checkout')[i].classList.remove('none');
+      birthCertificate[i].classList.add('none');
+      birthCertificate[i].disabled = true;
+      birthCertificate[i].required = false;
+      passportCheckout[i].classList.remove('none');
+      passportCheckout[i].disabled = false;
+      passportCheckout[i].required = true;
     }
   });
 }

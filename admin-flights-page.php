@@ -154,6 +154,7 @@
                       value='<?= $item['flight_id']; ?>' 
                       class="cancel-btn" type='submit'>&#9989;</button>
                     </form>
+                    <a href="update-flight-page.php/<?= $item['flight_id']; ?>">&#9997;</a>
                   </div>
 
                 <?php endif; ?>

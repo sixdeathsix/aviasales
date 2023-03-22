@@ -571,6 +571,44 @@
         ");
     }
 
+    public function getOneFlight($flight_id) {
+        return getOne("
+            SELECT f.flight_id, f.scheduled_departure, f.scheduled_arrival, 
+            da.airport_name as departure_name, f.departure_airport as da_id, 
+            aa.airport_name as arrival_name, f.arrival_airport as aa_id,
+            a.model, f.aircraft_id as a_id, f.price
+            FROM `flights` f
+            left join airports da on da.airport_id = f.departure_airport
+            left join airports aa on aa.airport_id = f.arrival_airport
+            left join aircrafts a on a.aircraft_id = f.aircraft_id
+            where f.flight_id = '$flight_id'
+        ");
+    }
+
+    public function updateFlight($from_date, $to_date, $from_airport, $to_airport, $aircraft_id, $price, $id) {
+
+        $success = operation("
+            update flights set 
+                               scheduled_departure = '$from_date',
+                               scheduled_arrival = '$to_date',
+                               departure_airport = '$from_airport',
+                               arrival_airport  = '$to_airport',
+                               aircraft_id = '$aircraft_id',
+                               price = '$price'
+            where flight_id = '$id'
+        ");
+
+        if ($success) {
+            $_SESSION['message'] = 'Изменения применены';
+
+        } else {
+            $_SESSION['message'] = 'Произошла ошибка';
+        }
+
+        header('Location: ../admin-flights-page.php?page=1');
+
+    }
+
   }
 
   $provider = new ApiProvider();

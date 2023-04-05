@@ -36,7 +36,7 @@
   <select name='class' class='main-input' required>
      <?php foreach($classes as $class): ?>
         <option value="<?= $class['class_id']; ?>" ><?= $class['class']; ?></option>
-    <?php endforeach; ?>
+     <?php endforeach; ?>
   </select>
 
   <button name='search' class='main-input'>Найти билеты</button>

@@ -19,8 +19,6 @@
   $phone = $_SESSION['user'] ? $_SESSION['user']['phone'] : '';
   $email = $_SESSION['user'] ? $_SESSION['user']['email'] : '';
 
-  $price = $price * $count;
-
   if(isset($_POST['clicked'])) {
 
     for ($i = 0; $i < $count; $i++) {
@@ -101,7 +99,7 @@
 
         <div class='checkout-order'>
           <div class="checkout-price">
-            Итого: <span><?= $price ?> ₽</span>
+            Итого: <span><?= $price * $count ?> ₽</span>
           </div>
           <button class='checkout-btn' name='clicked' type='submit'>Оформить</button>
         </div>

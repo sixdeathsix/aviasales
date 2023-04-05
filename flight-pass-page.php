@@ -12,6 +12,7 @@ require_once 'templates/notification.php';
 $id = explode('/', $_SERVER['REQUEST_URI'])[2];
 
 $flights = $provider->getPassFromFlight($id);
+$sum = $provider->getSumFromFlight($id);
 
 if ($flights) {
     $pagination = $mtd->pagination($flights, 10, $_GET['page']);
@@ -55,6 +56,7 @@ if ($flights) {
                     <th>Почта</th>
                     <th>Телефон</th>
                     <th>Класс обслуживания</th>
+                    <th>Цена</th>
                 </tr>
 
                 <?php foreach($flights as $item): ?>
@@ -65,10 +67,13 @@ if ($flights) {
                         <td><?= $item['contact_email'] ?></td>
                         <td><?= $item['contact_phone'] ?></td>
                         <td><?= $item['class'] ?></td>
+                        <td><?= $item['total_amount'] ?></td>
                     </tr>
                 <?php endforeach; ?>
 
             </table>
+
+            <p class="flight-sum">Всего: <?= $sum['sum']; ?></p>
 
         <?php else: ?>
 

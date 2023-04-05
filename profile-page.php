@@ -86,6 +86,8 @@
                 </form>
               </div>
 
+              <a href="map.html?to=<?= $item['from_n'] ?>" target="_blank" class="btn-map">Как добраться?</a>
+
             </div>
             
           <?php endforeach; ?>

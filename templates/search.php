@@ -1,4 +1,4 @@
-<?php 
+<?php
   session_start();
 
   require_once './database/requests.php';
@@ -16,29 +16,30 @@
 
 <form id='search' class="main-form-action" action="" method="post">
 
-  <input name='from' list="from" placeholder='Откуда' class='main-input' required>
+  <input id="search-from" name='from' list="from" placeholder='Откуда' class='main-input' required>
   <datalist id="from">
     <?php foreach($cities as $city): ?>
-      <option value="<?= $city['city']; ?>" >
+      <option value="<?= $city['city'] ?>" >
     <?php endforeach; ?>
   </datalist>
 
-  <input name='to' list="to" placeholder='Куда' class='main-input' required>
+  <input id="search-to" name='to' list="to" placeholder='Куда' class='main-input' required>
   <datalist id="to">
     <?php foreach($cities as $city): ?>
       <option value="<?= $city['city']; ?>" >
     <?php endforeach; ?>
   </datalist>
-          
-  <input type="text" placeholder='Когда' name="there_date" class='main-input date-input date-serach-input' required>
-  <input type="text" placeholder='Обратно' name="back_date" class='main-input date-input date-serach-input'>
-          
-  <select name='class' class='main-input' required>
+
+  <input id="search-there" type="text" placeholder='Когда' name="there_date" class='main-input date-input date-search-input' required>
+  <input id="search-back" type="text" placeholder='Обратно' name="back_date" class='main-input date-input date-search-input'>
+
+  <select id="search-class" name='class' class='main-input' required>
      <?php foreach($classes as $class): ?>
         <option value="<?= $class['class_id']; ?>" ><?= $class['class']; ?></option>
      <?php endforeach; ?>
   </select>
 
-  <button name='search' class='main-input'>Найти билеты</button>
+  <button id="search-btn" name='search' class='main-input'>Найти билеты</button>
 
 </form>
+<script src="../assets/js/search.js"></script>

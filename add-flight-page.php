@@ -69,10 +69,10 @@
           <?php endforeach ?>
         </select>
         <span>Время отправления</span>
-        <input class='form-action' placeholder='Цена' name='from_date' type="date" required>
+        <input class='form-action date-search-input' placeholder='Цена' name='from_date' type="date" required>
         <input class='form-action' placeholder='Цена' name='from_time' type="time" required>
         <span>Время прибытия</span>
-        <input class='form-action' placeholder='Цена' name='to_date' type="date" required>
+        <input class='form-action date-search-input' placeholder='Цена' name='to_date' type="date" required>
         <input class='form-action' placeholder='Цена' name='to_time' type="time" required>
 
         <input class='form-action' placeholder='Цена' name='price' type="number" min='1' required>

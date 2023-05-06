@@ -50,7 +50,7 @@
 
             <div id='screenscoot' class="profile-ticket padding border border-radius">
 
-              <h2 class='profile-ticket-title'>Flight №: <?= $item['flight_id'] ?></h2>
+              <h2 class='profile-ticket-title'>Flight №: <?= $item['flight_id'] ?> <?= $item['seat_no'] ? '/ Seat:' . ' ' . $item['seat_no'] : '' ?></h2>
 
               <div class="profile-ticket-info">
 

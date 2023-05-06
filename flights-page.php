@@ -107,7 +107,7 @@
       <div class='price-filter'>
         <div class='price-filter-form'><span>Стоимость до</span> <span id='filter-price'><?= $_SESSION['value'] ?></span></div>
         <form class='price-filter-form' action="" method='post'>
-          <input onchange="this.form.submit()" name='filter-price' class="filter-range" type="range" value="<?= $_SESSION['value'] ?>" max='<?= max($prices) ?>'>
+          <input onchange="this.form.submit()" name='filter-price' class="filter-range" type="range" value="<?= $_SESSION['value'] ?>" min='<?= min($prices) ?>' max='<?= max($prices) ?>'>
         </form>
       </div>
 
@@ -199,7 +199,7 @@
           </div>
 
           <div class='flight-right'>
-            <input name='price' value='<?= ($there['price'] + $back['price']) * $kf ?>' type="hidden">
+            <input id="checkout-price" name='price' value='<?= ($there['price'] + $back['price']) * $kf ?>' type="hidden">
             <p class='price'><?= ($there['price'] + $back['price']) * $kf ?> ₽</p>
             <button name='checkout' type='submit'>Купить</button>
             <?php if($seats > 9): ?>

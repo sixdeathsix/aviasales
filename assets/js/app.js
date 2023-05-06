@@ -1,13 +1,10 @@
 let btn  = document.querySelector('.toggle');
 let menu = document.querySelector('.menu');
 let dateInput = document.querySelectorAll('.date-input');
-let dateSearchInput = document.querySelectorAll('.date-serach-input');
+let dateSearchInput = document.querySelectorAll('.date-search-input');
 let countInput = document.querySelectorAll('.ticket-count');
 let phones = document.querySelectorAll('.phone');
 let passport = document.querySelectorAll('.passport');
-let birthCertificate = document.querySelectorAll('.birth-certificate');
-let passportCheckout = document.querySelectorAll('.passport-checkout');
-let checkbox = document.querySelectorAll('.is-small-baby');
 
 btn.addEventListener('click', () => menu.classList.toggle('trans'));
 
@@ -32,7 +29,7 @@ countInput.forEach(i => {
   i.addEventListener("change", function() {
     let c = parseInt(this.value);
     if (c < 1) this.value = 1;
-    if (c > 9) this.value = this.max;
+    if (c > this.max) this.value = this.max;
   });
 });
 
@@ -103,7 +100,7 @@ function inputpassport(e, passport){
     
   if(not == 1 || 'Backspace' === not){
 
-    if('Backspace' != not){ 
+    if('Backspace' != not){
 
       if (v.length === 2) {
         passport.value = v + ' '
@@ -116,28 +113,4 @@ function inputpassport(e, passport){
     stop(e)
   }
 
-}
-
-for (let i = 0; i <= checkbox.length; i++) {
-  birthCertificate[i].disabled = true;
-  birthCertificate[i].required = false;
-  passportCheckout[i].disabled = false;
-  passportCheckout[i].required = true;
-  checkbox[i].addEventListener('change', function() {
-    if (this.checked) {
-      passportCheckout[i].classList.add('none');
-      passportCheckout[i].disabled = true;
-      passportCheckout[i].required = false;
-      birthCertificate[i].classList.remove('none');
-      birthCertificate[i].disabled = false;
-      birthCertificate[i].required = true;
-    } else {
-      birthCertificate[i].classList.add('none');
-      birthCertificate[i].disabled = true;
-      birthCertificate[i].required = false;
-      passportCheckout[i].classList.remove('none');
-      passportCheckout[i].disabled = false;
-      passportCheckout[i].required = true;
-    }
-  });
 }

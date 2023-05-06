@@ -78,6 +78,7 @@ class ApiProvider
                 'patronymic' => $user['patronymic'],
                 'email' => $user['email'],
                 'phone' => $user['phone'],
+                'birth' => $user['date_birth'],
                 'login' => $user['login'],
                 'role' => $user['role_id']
             ];
@@ -91,7 +92,7 @@ class ApiProvider
 
     }
 
-    public function register($surname, $name, $patronymic, $email, $phone, $login, $password, $password_confirm)
+    public function register($surname, $name, $patronymic, $email, $phone, $birth, $login, $password, $password_confirm)
     {
 
         $login_isset = $this->getUserByLogin($login);
@@ -108,7 +109,7 @@ class ApiProvider
 
                 $success = operation("
             insert into users values
-            (null, '$surname', '$name', '$patronymic', '$email', '$phone', '$login', '$password', '$roleId')
+            (null, '$surname', '$name', '$patronymic', '$email', '$phone', '$birth', '$login', '$password', '$roleId')
           ");
 
                 if ($success) {
@@ -260,24 +261,28 @@ class ApiProvider
       ");
     }
 
-    public function getFlight($from, $to, $date)
+    public function getFlight($from, $to, $date, $class)
     {
         return getAll("
         select f.flight_id,f.scheduled_departure, f.scheduled_arrival,
         from_a.airport_name as departure_airport, to_a.airport_name as arrival_airport,
         from_c.city as departure_city, to_c.city as arrival_city,
         from_a.airport_code as departure_code, to_a.airport_code as arrival_code,
-        s.status, a.model as aircraft_model, f.price, 
-        (a.seats - (select count(book_id) from bookings where flight_id = f.flight_id)) as seats from flights f
+        s.status, a.model as aircraft_model, f.price,
+        (select count(*) from seats where aircraft_id = f.aircraft_id and class_id = '$class') - (select count(book_id) from bookings where flight_id = f.flight_id and class_id = '$class')
+        as seats
+        from flights f
         left join airports from_a on from_a.airport_id = f.departure_airport
         left join airports to_a on to_a.airport_id = f.arrival_airport
         left join cities from_c on from_c.city_id = from_a.city_id
         left join cities to_c on to_c.city_id = to_a.city_id
         left join statuses s on s.status_id = f.status_id
         left join aircrafts a on a.aircraft_id = f.aircraft_id
+        left join seats st on st.aircraft_id = a.aircraft_id and st.class_id = '$class'
         where from_c.city like '%$from%' and to_c.city like '%$to%' and f.scheduled_departure like '%$date%'
-        and f.status_id = '1' and (a.seats - (select count(book_id) from bookings where flight_id = f.flight_id)) > '0';
-      ");
+        and f.status_id = '1'
+        and ((select count(*) from seats where aircraft_id = f.aircraft_id and class_id = '$class') - (select count(book_id) from bookings where flight_id = f.flight_id and class_id = '$class')) > '0' group by f.flight_id;
+        ");
 
     }
 
@@ -288,11 +293,11 @@ class ApiProvider
         unset($_SESSION['filtered_flights']);
         unset($_SESSION['value']);
 
-        $there = $this->getFlight($from, $to, $there_date);
+        $there = $this->getFlight($from, $to, $there_date, $class);
 
         if ($back_date) {
 
-            $back = $this->getFlight($to, $from, $back_date);
+            $back = $this->getFlight($to, $from, $back_date, $class);
 
             $a = $there >= $back ? $there : $back;
 
@@ -359,28 +364,33 @@ class ApiProvider
             $gender = $item['gender'];
             $birth_date = $item['birth_date'];
             $document = $item['document'];
+            $seat = $item['seat'] == null ? 'null' : $item['seat'];
 
             if ($back_id) {
 
-                $success = operation("
-            INSERT INTO `bookings` VALUES 
-            (null, '$there_id', '$surname', '$name', '$patronymic', '$gender', '$birth_date', '$document', CURRENT_TIMESTAMP, '$class', '$email', '$phone', $user_id, '$price');
-          ");
+                $back_success = operation("
+                    INSERT INTO `bookings` VALUES 
+                    (null, '$there_id', '$surname', '$name', '$patronymic', '$gender', '$birth_date', '$document', CURRENT_TIMESTAMP, '$class', '$email', '$phone', $user_id, null, '$price');
+                ");
 
-                $success = operation("
-            INSERT INTO `bookings` VALUES 
-            (null, '$back_id', '$surname', '$name', '$patronymic', '$gender', '$birth_date', '$document', CURRENT_TIMESTAMP, '$class', '$email', '$phone', $user_id, '$price');
-          ");
+                $there_success = operation("
+                    INSERT INTO `bookings` VALUES 
+                    (null, '$back_id', '$surname', '$name', '$patronymic', '$gender', '$birth_date', '$document', CURRENT_TIMESTAMP, '$class', '$email', '$phone', $user_id, null, '$price');
+                ");
+
+                if (!$there_success || !$back_success) {
+                    $commit = false;
+                }
 
             } else {
                 $success = operation("
-            INSERT INTO `bookings` VALUES 
-            (null, '$there_id', '$surname', '$name', '$patronymic', '$gender', '$birth_date', '$document', CURRENT_TIMESTAMP, '$class', '$email', '$phone', $user_id, '$price');
-          ");
-            }
+                    INSERT INTO `bookings` VALUES 
+                    (null, '$there_id', '$surname', '$name', '$patronymic', '$gender', '$birth_date', '$document', CURRENT_TIMESTAMP, '$class', '$email', '$phone', $user_id, $seat, '$price');
+                ");
 
-            if (!$success) {
-                $commit = false;
+                if (!$success) {
+                    $commit = false;
+                }
             }
 
         }
@@ -445,13 +455,14 @@ class ApiProvider
         return getAll("
         select b.book_id, b.flight_id, b.surname, b.name, b.patronymic,
         from_a.airport_code as from_n, to_a.airport_code as to_n,
-        f.scheduled_departure, c.class_code, c.class from bookings b 
+        f.scheduled_departure, c.class_code, c.class, st.seat_no from bookings b 
         left join flights f on f.flight_id = b.flight_id
         left join airports from_a on from_a.airport_id = f.departure_airport
         left join airports to_a on to_a.airport_id = f.arrival_airport
         left join tickets t on t.book_id = b.book_id
         left join statuses s on s.status_id = f.status_id
         left join classes c on c.class_id = b.class_id
+        left join seats st on st.seat_id = b.seat_id
         where b.user_id = '$user_id' and f.status_id = '1';
       ");
 
@@ -511,7 +522,7 @@ class ApiProvider
 
     }
 
-    public function updateProfile($surname, $name, $patronymic, $email, $phone, $login, $user_id)
+    public function updateProfile($surname, $name, $patronymic, $email, $phone, $birth, $login, $user_id)
     {
 
         $success = operation(" 
@@ -520,6 +531,7 @@ class ApiProvider
         patronymic = '$patronymic',
         email = '$email',
         phone = '$phone',
+        date_birth = '$birth',
         login = '$login'
         where user_id = '$user_id'
       ");
@@ -535,6 +547,7 @@ class ApiProvider
                 'patronymic' => $user['patronymic'],
                 'email' => $user['email'],
                 'phone' => $user['phone'],
+                'birth' => $user['date_birth'],
                 'login' => $user['login'],
                 'role' => $user['role_id']
             ];
@@ -550,16 +563,44 @@ class ApiProvider
 
     public function updateFlightStatus($id, $status)
     {
+        if ($status == 2) {
+            require 'connect.php';
 
-        $success = operation("
-        update flights set status_id = '$status' where flight_id = '$id'
-      ");
+            mysqli_autocommit($connect, FALSE);
 
-        if ($success) {
-            $_SESSION['message'] = 'Статус рейса успешно изменен';
+            $commit = true;
 
+            $success = operation("
+                update flights set status_id = '$status' where flight_id = '$id'
+            ");
+
+            $success = operation("
+                insert into notifications values (null, 'Рейс № $id был отменен', 'Рейс № $id был отменен. Просим вас забронировать билет на другой рейс.', current_timestamp, '$id')
+            ");
+
+            if (!$success) {
+                $commit = false;
+            }
+
+            if ($success) {
+                mysqli_commit($connect);
+                $_SESSION['message'] = 'Статус рейса успешно изменен';
+
+            } else {
+                mysqli_rollback($connect);
+                $_SESSION['message'] = 'Ошибка изменения статуса';
+            }
         } else {
-            $_SESSION['message'] = 'Ошибка изменения статуса';
+            $success = operation("
+                update flights set status_id = '$status' where flight_id = '$id'
+            ");
+
+            if ($success) {
+                $_SESSION['message'] = 'Статус рейса успешно изменен';
+
+            } else {
+                $_SESSION['message'] = 'Ошибка изменения статуса';
+            }
         }
 
         header('Location: ../admin-flights-page.php?page=1');
@@ -624,6 +665,12 @@ class ApiProvider
     public function updateFlight($from_date, $to_date, $from_airport, $to_airport, $aircraft_id, $price, $id)
     {
 
+        require 'connect.php';
+
+        mysqli_autocommit($connect, FALSE);
+
+        $commit = true;
+
         $success = operation("
             update flights set 
                                scheduled_departure = '$from_date',
@@ -635,10 +682,20 @@ class ApiProvider
             where flight_id = '$id'
         ");
 
+        $success = operation("
+            insert into notifications values (null, 'Произошли изменения в рейсе № $id', 'В рейсе № $id произошли изменения, просим Вас ознакомиться с изменениями в профиле.', current_timestamp, '$id')
+        ");
+
+        if (!$success) {
+            $commit = false;
+        }
+
         if ($success) {
+            mysqli_commit($connect);
             $_SESSION['message'] = 'Изменения применены';
 
         } else {
+            mysqli_rollback($connect);
             $_SESSION['message'] = 'Произошла ошибка';
         }
 
@@ -660,6 +717,60 @@ class ApiProvider
         }
 
         header('Location: ../admin-flights-page.php?page=1');
+    }
+
+    public function getNotifications($user_id)
+    {
+        return getAll("
+            select n.notification_id, n.notification_title, n.notification_desc, n.notification_date, n.flight_id from notifications n
+            left join bookings b on b.flight_id = n.flight_id
+            where n.flight_id in (select flight_id from bookings where user_id = '$user_id')
+            and n.notification_date > b.booking_date
+            order by n.notification_date desc;
+        ");
+    }
+
+    public function getSeats($flight_id, $class_id)
+    {
+        return getAll("
+            select s.seat_id, s.seat_no, s.aircraft_id from seats s 
+            left join flights f on f.aircraft_id = s.aircraft_id
+            left join bookings b on b.flight_id = f.flight_id
+            where f.flight_id = '$flight_id' and s.class_id = '$class_id' and s.seat_id not in (select seat_id from bookings where flight_id = '$flight_id' and seat_id is not null) 
+            group by s.seat_id;
+        ");
+    }
+
+    public function getReviews()
+    {
+        return getAll("
+            select * from reviews r 
+            left join users u on u.user_id = r.user_id
+            order by r.review_date desc;
+        ");
+    }
+
+    public function getAvgReviews()
+    {
+        return getOne("
+            select round(avg(review_rate),2) as avg from reviews;
+        ");
+    }
+
+    public function addReview($review_text, $user_id, $star)
+    {
+        $success = operation("
+            insert into reviews values (null, '$review_text', current_timestamp, '$star', '$user_id')
+        ");
+
+        if ($success) {
+            $_SESSION['message'] = 'Спасибо за отзыв';
+
+        } else {
+            $_SESSION['message'] = 'Произошла ошибка';
+        }
+
+        header('Location: ../reviews-page.php');
     }
 
 }

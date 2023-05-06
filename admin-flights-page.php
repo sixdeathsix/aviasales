@@ -84,6 +84,8 @@ if (isset($_POST['delete'])) {
                 <button>обновить</button>
             </form>
 
+            <input id="search" placeholder="Поиск" type="text">
+
             <form method="post">
                 <select name="sort" onchange="this.form.submit()">
                     <option value="" hidden>
@@ -130,7 +132,7 @@ if (isset($_POST['delete'])) {
                 <?php foreach ($flights as $item): ?>
                     <tr class='history-tr'>
                         <td><?= $item['flight_id'] ?></td>
-                        <td><?= $item['d_name'] ?>/<?= $item['d_code'] ?></td>
+                        <td class="search-list"><?= $item['d_name'] ?>/<?= $item['d_code'] ?></td>
                         <td><?= $item['a_name'] ?>/<?= $item['a_code'] ?></td>
                         <td>
                             <?= $mtd->convDate($item['scheduled_departure']) ?>
@@ -197,11 +199,13 @@ if (isset($_POST['delete'])) {
 
         <?php endif; ?>
 
-        <?php require_once 'templates/pages.php'; ?>
+        <div class="pages pagination"></div>
 
     </main>
 
 </div>
 
+
+<script src="assets/js/search-user.js"></script>
 </body>
 </html>

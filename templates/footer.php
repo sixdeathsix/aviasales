@@ -24,6 +24,7 @@
     <a href='' class="social-link">Инстаграм</a>
     <a href='' class="social-link">Твиттер</a>
     <a href='' class="social-link">Телеграм</a>
+    <a href='privacy-page.php' class="social-link">Политика конфиденциальности</a>
   </div>
   <div class="copyright">© 2023, Авиасейлс — дешевые авиабилеты</div>
 </footer>

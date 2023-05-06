@@ -773,6 +773,74 @@ class ApiProvider
         header('Location: ../reviews-page.php');
     }
 
+    public function addAppeal($support_text, $user_id)
+    {
+        $success = operation("
+            insert into appeals values (null, '$support_text', current_timestamp, null, null, '$user_id')
+        ");
+
+        if ($success) {
+            $_SESSION['message'] = 'Ваше обращение передано в тех.поддержку';
+
+        } else {
+            $_SESSION['message'] = 'Произошла ошибка';
+        }
+
+        header('Location: ../support-page.php');
+    }
+
+    public function getAppeals($user_id)
+    {
+        return getAll("
+            select * from appeals a
+            left join users u on u.user_id = a.user_id
+            where a.user_id = '$user_id'
+            order by a.appeal_date desc;
+        ");
+    }
+
+    public function getAllAppeals()
+    {
+        return getAll("
+            select * from appeals a
+            left join users u on u.user_id = a.user_id
+            where a.appeal_reply is null
+            order by a.appeal_date desc;
+        ");
+    }
+
+    public function addReplyToAppeal($reply_text, $appeal_id)
+    {
+        $success = operation("
+            update appeals set appeal_reply = '$reply_text', appeal_reply_date = current_timestamp where appeal_id = '$appeal_id'
+        ");
+
+        if ($success) {
+            $_SESSION['message'] = 'Ответ успешно предоставлен';
+
+        } else {
+            $_SESSION['message'] = 'Произошла ошибка';
+        }
+
+        header('Location: ../admin-appeals-page.php?page=1');
+    }
+
+    public function deleteReview($review_id)
+    {
+        $success = operation("
+            delete from reviews where review_id = '$review_id'
+        ");
+
+        if ($success) {
+            $_SESSION['message'] = 'Отзыв успешно удален';
+
+        } else {
+            $_SESSION['message'] = 'Произошла ошибка';
+        }
+
+        header('Location: ../reviews-page.php');
+    }
+
 }
 
 $provider = new ApiProvider();

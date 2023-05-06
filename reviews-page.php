@@ -13,6 +13,11 @@ if (isset($_POST['review_text'])) {
     unset($_POST['review_text']);
 }
 
+if (isset($_POST['delete'])) {
+    $provider->deleteReview($_POST['delete']);
+    unset($_POST['delete']);
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -41,7 +46,14 @@ if (isset($_POST['review_text'])) {
                 </div>
                 <div class="not-date">
                     <?= $mtd->convDate($item['review_date']) ?>
+                    <?php if($_SESSION['user']['role'] == 3): ?>
+                        <form method="post">
+                            <button class="delete-btn" name="delete" value="<?= $item['review_id'] ?>">удалить</button>
+                        </form>
+                    <?php endif; ?>
                 </div>
+
+
             </div>
 
         <?php endforeach; ?>

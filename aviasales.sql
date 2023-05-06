@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Май 06 2023 г., 16:36
+-- Время создания: Май 07 2023 г., 01:50
 -- Версия сервера: 5.7.39
 -- Версия PHP: 7.3.33
 
@@ -72,6 +72,29 @@ INSERT INTO `airports` (`airport_id`, `airport_name`, `city_id`, `airport_code`)
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `appeals`
+--
+
+CREATE TABLE `appeals` (
+  `appeal_id` int(11) NOT NULL,
+  `appeal_text` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `appeal_date` datetime NOT NULL,
+  `appeal_reply` text COLLATE utf8mb4_unicode_ci,
+  `appeal_reply_date` datetime DEFAULT NULL,
+  `user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Дамп данных таблицы `appeals`
+--
+
+INSERT INTO `appeals` (`appeal_id`, `appeal_text`, `appeal_date`, `appeal_reply`, `appeal_reply_date`, `user_id`) VALUES
+(1, 'у меня проблема...', '2023-05-07 01:14:18', 'мы решим все', '2023-05-07 01:28:34', 2),
+(2, 'fasdfasdgfasfgdfs', '2023-05-07 01:20:42', 'мы вам поможем', '2023-05-07 01:43:57', 2);
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `bookings`
 --
 
@@ -102,7 +125,7 @@ INSERT INTO `bookings` (`book_id`, `flight_id`, `surname`, `name`, `patronymic`,
 (25, 5, 'Гараев', 'Ильнар', 'Линарович', 1, '2003-01-01', '123123123', '2022-12-29 08:15:00', 2, 'ilnar@mail.ru', '+79176549847', 2, NULL, 12000),
 (26, 6, 'Гараев', 'Ильнар', 'Линарович', 1, '2003-01-01', '123123123', '2022-12-29 08:15:00', 2, 'ilnar@mail.ru', '+79176549847', 2, NULL, 7000),
 (27, 7, 'Гараев', 'Ильнар', 'Линарович', 1, '2003-01-01', '123123123', '2022-12-29 08:15:00', 2, 'ilnar@mail.ru', '+79176549847', 2, NULL, 16000),
-(28, 12, 'Гараев', 'Ильнар', 'Линарович', 1, '2003-04-06', '41 23 412341', '2023-05-06 09:39:11', 3, 'ilnar@mail.ru', '+7 (917) 654-98-47', 2, NULL, 12000);
+(29, 12, 'Гараев', 'Ильнар', 'Линарович', 1, '2003-04-06', '12 43 234123', '2023-05-06 13:38:54', 3, 'ilnar@mail.ru', '+7 (917) 654-98-47', 2, 9, 18600);
 
 -- --------------------------------------------------------
 
@@ -268,8 +291,7 @@ INSERT INTO `reviews` (`review_id`, `review_text`, `review_date`, `review_rate`,
 (19, 'cxzvzznbvmvbn,bnm.nm,./nm,.nm.,', '2023-05-06 16:24:40', 2, 2),
 (20, 'bnvcvbncvbncvbn', '2023-05-06 16:24:44', 1, 2),
 (21, 'asdasdasd', '2023-05-06 16:29:31', 5, 2),
-(22, 'werqwerqwerwqer', '2023-05-06 16:34:51', 3, 2),
-(23, 'gthfgdjfghjfghjg', '2023-05-06 16:34:55', 2, 2);
+(22, 'werqwerqwerwqer', '2023-05-06 16:34:51', 3, 2);
 
 -- --------------------------------------------------------
 
@@ -411,6 +433,13 @@ ALTER TABLE `airports`
   ADD KEY `city` (`city_id`);
 
 --
+-- Индексы таблицы `appeals`
+--
+ALTER TABLE `appeals`
+  ADD PRIMARY KEY (`appeal_id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
 -- Индексы таблицы `bookings`
 --
 ALTER TABLE `bookings`
@@ -516,10 +545,16 @@ ALTER TABLE `airports`
   MODIFY `airport_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT для таблицы `appeals`
+--
+ALTER TABLE `appeals`
+  MODIFY `appeal_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT для таблицы `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `book_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `book_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT для таблицы `cities`
@@ -596,6 +631,12 @@ ALTER TABLE `users`
 --
 ALTER TABLE `airports`
   ADD CONSTRAINT `airports_ibfk_1` FOREIGN KEY (`city_id`) REFERENCES `cities` (`city_id`);
+
+--
+-- Ограничения внешнего ключа таблицы `appeals`
+--
+ALTER TABLE `appeals`
+  ADD CONSTRAINT `appeals_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
 
 --
 -- Ограничения внешнего ключа таблицы `bookings`

@@ -17,7 +17,8 @@
   <div class="profile-links">
     <a class="profile-link" href="/profile-page.php?page=1">Мои заказы</a>
     <a class="profile-link" href="/history-page.php?page=1">История заказов</a>
-    <a class="profile-link df" href="/notifications.php">Уведомления <?php if($provider->getNotifications($_SESSION['user']['id'])): ?><span class="badge"><?= count($provider->getNotifications($_SESSION['user']['id'])) ?></span><?php endif; ?></a>
+    <a class="profile-link df" href="/notifications-page.php">Уведомления <?php if($provider->getNotifications($_SESSION['user']['id'])): ?><span class="badge"><?= count($provider->getNotifications($_SESSION['user']['id'])) ?></span><?php endif; ?></a>
+    <a class="profile-link" href="/appeals-page.php?page=1">Мои вопросы</a>
     <a class="profile-link" href="/update-profile-page.php">Изменить личные данные</a>
     <a class="profile-link" href="/reset-password.php">Сменить пароль</a>
   </div>

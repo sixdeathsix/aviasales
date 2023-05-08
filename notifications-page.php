@@ -13,13 +13,6 @@ $user = $_SESSION['user'];
 
 $notifications = $provider->getNotifications($user['id']);
 
-if ($notifications) {
-    $pagination = $mtd->pagination($notifications, 4, $_GET['page']);
-
-    $notifications = $pagination['array'];
-    $pages = $pagination['pages'];
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -43,7 +36,7 @@ if ($notifications) {
 
                 <?php foreach($notifications as $item): ?>
 
-                    <div class="notification">
+                    <div class="notification" data-id="<?= $item['notification_id'] ?>">
                         <div class="not-title">
                             <b><?= $item['notification_title'] ?></b>
                         </div>
@@ -57,13 +50,13 @@ if ($notifications) {
 
                 <?php endforeach; ?>
 
+                <button class="review-btn more btn">Показать все</button
+
             <?php else: ?>
 
                 <h2 class="tac">Уведомлений нет</h2>
 
             <?php endif; ?>
-
-            <?php require_once 'templates/pages.php'; ?>
 
         </div>
 
@@ -71,5 +64,6 @@ if ($notifications) {
 
 </div>
 
+<script src="assets/js/notification.js"></script>
 </body>
 </html>

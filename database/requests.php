@@ -146,8 +146,7 @@ class ApiProvider
         da.airport_name as d_name, da.airport_code as d_code, 
         aa.airport_name as a_name, aa.airport_code as a_code,
         s.status, a.model, f.price, 
-        (select count(ticket_id) from tickets t
-        left join bookings b on b.book_id = t.book_id
+        (select count(book_id) from bookings b
         where b.flight_id = f.flight_id and f.status_id = '3') as sold,
         (select count(book_id) from bookings 
         where flight_id = f.flight_id and f.status_id = '1') as booked 
@@ -839,6 +838,22 @@ class ApiProvider
         }
 
         header('Location: ../reviews-page.php');
+    }
+
+    public function deleteAppeal($appeal_id)
+    {
+        $success = operation("
+            delete from appeals where appeal_id = '$appeal_id'
+        ");
+
+        if ($success) {
+            $_SESSION['message'] = 'Вопрос успешно удален';
+
+        } else {
+            $_SESSION['message'] = 'Произошла ошибка';
+        }
+
+        header('Location: ../appeals-page.php?page=1');
     }
 
 }

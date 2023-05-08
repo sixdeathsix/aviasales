@@ -95,8 +95,6 @@ if (isset($_POST['delete'])) {
 
 <div class="btn-up btn-up_hide"></div>
 
-<?php //require_once 'templates/footer.php'; ?>
-
 <script src="assets/js/review.js"></script>
 </body>
 </html>

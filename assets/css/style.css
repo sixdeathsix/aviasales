@@ -1225,6 +1225,16 @@ button:hover a.logout {
     padding: 0 10px;
 }
 
+.logo {
+    display: flex;
+    align-items: center;
+    width: 50px;
+}
+
+.logo > img {
+    width: 50px;
+}
+
 @media (hover: hover) and (pointer: fine) {
     .btn-up:hover {
         background-color: #0085ff91;

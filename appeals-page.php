@@ -20,6 +20,11 @@ if ($appeals) {
     $pages = $pagination['pages'];
 }
 
+if (isset($_POST['delete'])) {
+    $provider->deleteAppeal($_POST['delete']);
+    unset($_POST['delete']);
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -64,8 +69,11 @@ if ($appeals) {
                                     <?= $mtd->convDate($item['appeal_reply_date']) ?> <?= $mtd->convTime($item['appeal_reply_date']) ?>
                                 </div>
                             </div>
-
                         <?php endif; ?>
+
+                        <form method="post">
+                            <button class="delete-btn right" name="delete" value="<?= $item['appeal_id'] ?>">удалить</button>
+                        </form>
 
                     </div>
 

@@ -3,15 +3,15 @@
     <div class="header df jcsb aic bg">
 
         <div class="burger">
-            <a class="logo" href="/">BestTravel</a>
+            <a class="logo" href="/"><img src="../assets/images/logo.svg" alt="">BestTravel</a>
             <div class="toggle">
                 <img class="toggle" src="../assets/images/menu.png" alt="menu">
             </div>
         </div>
 
         <div class="menu df">
-
             <?php if ($_SESSION['user']['role'] == '3'): ?>
+
                 <a href="/admin-users-page.php?page=1">Админ Панель</a>
             <?php endif ?>
 
@@ -23,7 +23,7 @@
                 <a class="df"
                    href="/profile-page.php?page=1">Профиль <?php if ($provider->getNotifications($_SESSION['user']['id'])): ?>
                         <span
-                            class="badge"><?= count($provider->getNotifications($_SESSION['user']['id'])) ?></span><?php endif; ?>
+                            class="badge none"><?= count($provider->getNotifications($_SESSION['user']['id'])) ?></span><?php endif; ?>
                 </a>
             <?php endif ?>
 

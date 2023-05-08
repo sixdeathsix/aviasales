@@ -46,6 +46,9 @@
         <h3 class="tac">Добавить рейс</h3>
         <span>Откуда</span>
         <select class='form-action' name='from' required>
+          <option>
+            Откуда
+          </option>
           <?php foreach($airports as $item): ?>
             <option value="<?= $item['airport_id']; ?>">
               <?= $item['airport_name']; ?>
@@ -54,6 +57,9 @@
         </select>
         <span>Куда</span>
         <select class='form-action' name='to' required>
+          <option>
+            Куда
+          </option>
           <?php foreach($airports as $item): ?>
             <option value="<?= $item['airport_id']; ?>">
               <?= $item['airport_name']; ?>
@@ -83,5 +89,6 @@
     </main>
   </div>
 
+<script src="assets/js/flight.js"></script>
 </body>
 </html>

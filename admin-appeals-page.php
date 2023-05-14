@@ -76,6 +76,6 @@ if (isset($_POST['reply_text'])) {
 
 </div>
 
-<script src="assets/js/search-user.js"></script>
+<script src="assets/js/search-items.js"></script>
 </body>
 </html>

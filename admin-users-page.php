@@ -73,6 +73,6 @@ if (isset($_POST['delete'])) {
 
 </div>
 
-<script src="assets/js/search-user.js"></script>
+<script src="assets/js/search-items.js"></script>
 </body>
 </html>

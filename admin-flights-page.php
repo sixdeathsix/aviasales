@@ -11,28 +11,15 @@ require_once 'templates/notification.php';
 
 $flights = $provider->getAllFlights($_SESSION['admin-status']);
 
-if ($flights) {
-    $pagination = $mtd->pagination($flights, 10, $_GET['page']);
-
-    $flights = $pagination['array'];
-    $pages = $pagination['pages'];
-}
-
 if (isset($_POST['sort'])) {
     $_SESSION['admin-status'] = $_POST['sort'];
     $flights = $provider->getAllFlights($_SESSION['admin-status']);
-    $pagination = $mtd->pagination($flights, 10, $_GET['page']);
-    $flights = $pagination['array'];
-    $pages = $pagination['pages'];
     unset($_POST['sort']);
 }
 
 if (isset($_POST['start'], $_POST['end'])) {
     $_SESSION['admin-status'] = $_POST['sort'];
     $flights = $provider->getAllFlightsWithDate($_SESSION['admin-status'], $_POST['start'], $_POST['end']);
-    $pagination = $mtd->pagination($flights, 10, $_GET['page']);
-    $flights = $pagination['array'];
-    $pages = $pagination['pages'];
     unset($_POST['start']);
     unset($_POST['end']);
 }
@@ -78,9 +65,9 @@ if (isset($_POST['delete'])) {
         <div class="df w-90 jcsb">
 
             <form method="post">
-                <input name="start" type="date">
+                <input name="start" type="date" required>
                 <span> - </span>
-                <input name="end" type="date">
+                <input name="end" type="date" required>
                 <button>обновить</button>
             </form>
 
@@ -206,6 +193,6 @@ if (isset($_POST['delete'])) {
 </div>
 
 
-<script src="assets/js/search-user.js"></script>
+<script src="assets/js/search-items.js"></script>
 </body>
 </html>

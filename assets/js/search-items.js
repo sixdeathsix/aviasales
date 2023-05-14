@@ -19,12 +19,12 @@ const paginator = () => {
 
         startValue();
 
-        for (let i = 1; i <= array_list.length / items; i++) {
+        for (let i = 0; i <= array_list.length / items; i++) {
             pages.innerHTML += `
             <a
                 class="page-number <?= $_GET['page'] == $i ? 'selected' : '' ?>"
             >
-                ${i}
+                ${i + 1}
             </a>
         `
         }

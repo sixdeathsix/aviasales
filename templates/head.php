@@ -24,5 +24,6 @@
   <link rel="stylesheet" href="../assets/css/style.css" crossorigin="anonymous">
   <script defer src="../assets/js/to-image.js"></script>
   <script defer src="../assets/js/app.js"></script>
+  <script defer src="../assets/js/badge.js"></script>
   <title><?= $title; ?></title>
 </head>

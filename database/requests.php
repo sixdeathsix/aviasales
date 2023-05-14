@@ -156,6 +156,7 @@ class ApiProvider
         left join statuses s on s.status_id = f.status_id
         left join aircrafts a on a.aircraft_id = f.aircraft_id
         where s.status like '%$status%'
+        ORDER BY `f`.`flight_id` desc
       ");
     }
 
@@ -724,7 +725,8 @@ class ApiProvider
             select n.notification_id, n.notification_title, n.notification_desc, n.notification_date, n.flight_id from notifications n
             left join bookings b on b.flight_id = n.flight_id
             where n.flight_id in (select flight_id from bookings where user_id = '$user_id')
-            and n.notification_date > b.booking_date
+            and n.notification_date > b.booking_date and b.user_id = '$user_id'
+            group by n.notification_id
             order by n.notification_date desc;
         ");
     }

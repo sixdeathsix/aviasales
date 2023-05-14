@@ -24,7 +24,8 @@
   </div>
 
   <form action="database/logout.php" method='post'>
-    <button class='btn w-full'><a class="logout" href="database/logout.php">Выйти</a></button>
+    <button class='btn w-full logout'>Выйти</button>
   </form>
 
+<script src="../assets/js/logout.js"></script>
 </div>

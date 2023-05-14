@@ -5,16 +5,6 @@ let dateSearchInput = document.querySelectorAll('.date-search-input');
 let countInput = document.querySelectorAll('.ticket-count');
 let phones = document.querySelectorAll('.phone');
 let passport = document.querySelectorAll('.passport');
-let badge = document.querySelectorAll('.badge');
-
-let not_count = JSON.parse(localStorage.getItem('hides')) || [];
-
-if (not_count.length.toString() !== badge[0].innerText) {
-    badge.forEach(b => {
-        b.innerText = parseFloat(b.innerText) - not_count.length;
-        b.classList.remove('none')
-    });
-}
 
 btn.addEventListener('click', () => menu.classList.toggle('trans'));
 

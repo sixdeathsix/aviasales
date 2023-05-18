@@ -4,6 +4,12 @@ session_start();
 require_once 'database/requests.php';
 require_once 'templates/notification.php';
 
+$style = 'background: -webkit-gradient( linear, left top, left bottom,from(rgba(0, 0, 0, 0.4)),to(rgba(0, 0, 0, 0.4)) ),center center / cover no-repeat';
+
+$attractions = $provider->getRandomAttractions();
+list($attractions1, $attractions2) = array_chunk($attractions, ceil(count($attractions) / 2));
+
+
 ?>
 
 <!DOCTYPE html>
@@ -36,22 +42,28 @@ require_once 'templates/notification.php';
 <div class="container">
 
     <div class="cards">
-        <div class="card"
-             style="background-image: linear-gradient( rgba(0, 0, 0, 0.35),
-        rgba(0, 0, 0, 0.35) ), url('assets/images/bg-card-1.jpg');">
-            <div class="card-title">Санкт-Петербург от 5999 Р</div>
-            <div class="card-desc">
-                <h3>Бертгольд Центр</h3>
+        <?php foreach($attractions1 as $attraction): ?>
+            <div class="holder-container modal-btn" data-modal-btn="<?= $attraction['attraction_id'] ?>">
+                <div class="img-holder holder-bg-3" style="<?= $style ?> url(<?= $attraction['attraction_image'] ?>)"></div>
+                <p class="holder-title"><?= $attraction['city'] ?></p>
+                <p class="holder-subtitle"><?= $attraction['attraction_title'] ?></p>
             </div>
-        </div>
-        <div class="card"
-             style="background-image: linear-gradient( rgba(0, 0, 0, 0.35),
-        rgba(0, 0, 0, 0.35) ), url('assets/images/bg-card-2.jpg');">
-            <div class="card-title">Казань от 6999 Р</div>
-            <div class="card-desc">
-                <h3>Океонариум</h3>
+
+            <div class="modal" data-modal="<?= $attraction['attraction_id'] ?>">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2><?= $attraction['attraction_title'] ?></h2>
+                    </div>
+                    <div class="modal-body">
+                        <img src="<?= $attraction['attraction_image'] ?>" alt="">
+                        <p><?= $attraction['attraction_text'] ?></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="w-full btn modal-btn-close">Забронировать билеты</button>
+                    </div>
+                </div>
             </div>
-        </div>
+        <?php endforeach; ?>
     </div>
 
     <div class="price-map">
@@ -86,22 +98,28 @@ require_once 'templates/notification.php';
     </div>
 
     <div class="cards">
-        <div class="card"
-             style="background-image: linear-gradient( rgba(0, 0, 0, 0.35),
-        rgba(0, 0, 0, 0.35) ), url('assets/images/mos-city.jpeg');">
-            <div class="card-title">Москва от 4999 Р</div>
-            <div class="card-desc">
-                <h3>Москва-Сити</h3>
+        <?php foreach($attractions2 as $attraction): ?>
+            <div class="holder-container modal-btn" data-modal-btn="<?= $attraction['attraction_id'] ?>">
+                <div class="img-holder holder-bg-3" style="<?= $style ?> url(<?= $attraction['attraction_image'] ?>)"></div>
+                <p class="holder-title"><?= $attraction['city'] ?></p>
+                <p class="holder-subtitle"><?= $attraction['attraction_title'] ?></p>
             </div>
-        </div>
-        <div class="card"
-             style="background-image: linear-gradient( rgba(0, 0, 0, 0.35),
-        rgba(0, 0, 0, 0.35) ), url('assets/images/ekb.jpg');">
-            <div class="card-title">Екатеринбург от 3999 Р</div>
-            <div class="card-desc">
-                <h3>Дендропарк</h3>
+
+            <div class="modal" data-modal="<?= $attraction['attraction_id'] ?>">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2><?= $attraction['attraction_title'] ?></h2>
+                    </div>
+                    <div class="modal-body">
+                        <img src="<?= $attraction['attraction_image'] ?>" alt="">
+                        <p><?= $attraction['attraction_text'] ?></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="w-full btn modal-btn-close">Забронировать билеты</button>
+                    </div>
+                </div>
             </div>
-        </div>
+        <?php endforeach; ?>
     </div>
 
     <div class="where-flight">
@@ -124,5 +142,6 @@ require_once 'templates/notification.php';
 <?php require_once 'templates/footer.php'; ?>
 
 <script src="assets/js/btnup.js"></script>
+<script src="assets/js/modal.js"></script>
 </body>
 </html>

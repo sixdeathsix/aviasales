@@ -858,6 +858,67 @@ class ApiProvider
         header('Location: ../appeals-page.php?page=1');
     }
 
+    public function getRandomAttractions()
+    {
+        return getAll("
+            select * from attractions a 
+            left join cities c on c.city_id = a.city_id
+            order by rand()
+            limit 4
+        ");
+    }
+
+    public function getAllAttractions()
+    {
+        return getAll("
+            select * from attractions a 
+            left join cities c on c.city_id = a.city_id
+        ");
+    }
+
+    public function deleteAttraction($attraction_id)
+    {
+        $success = operation("
+            delete from attractions where attraction_id = '$attraction_id'
+        ");
+
+        if ($success) {
+            $_SESSION['message'] = 'Достопримечательность удалена';
+
+        } else {
+            $_SESSION['message'] = 'Произошла ошибка';
+        }
+
+        header('Location: ../admin-attractions-page.php?page=1');
+    }
+
+    public function getAllCities()
+    {
+        return getAll("
+            select * from cities
+        ");
+    }
+
+    public function addAttraction($attraction_title, $attraction_text, $attraction_image, $city_id)
+    {
+        $filename = $attraction_image['name'];
+        $tempname = $attraction_image['tmp_name'];
+        $image = 'sources/attractions/' . time() . '_' . $filename;
+
+        $success = operation("
+            insert into attractions values (null, '$attraction_title', '$attraction_text', '$image', '$city_id')
+        ");
+
+        if ($success) {
+            move_uploaded_file($tempname, $image);
+            $_SESSION['message'] = 'Достопримечательность добавлена';
+        } else {
+            $_SESSION['message'] = 'Произошла ошибка';
+        }
+
+        header('Location: ../admin-attractions-page.php?page=1');
+    }
+
 }
 
 $provider = new ApiProvider();

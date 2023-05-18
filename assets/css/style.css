@@ -21,7 +21,7 @@ body {
 img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
 }
 
 a {
@@ -123,7 +123,7 @@ h1, h2, h3, h4, h5 {
     color: #fff;
 }
 
-button, input, select {
+button, input, select, textarea {
     background-color: white;
     padding: 10px 20px;
     border-radius: 10px;
@@ -1235,6 +1235,116 @@ button:hover a.logout {
     width: 50px;
 }
 
+.holder-container {
+    width: 48%;
+    height: 350px;
+    overflow: hidden;
+    position: relative;
+    border-radius: 15px;
+}
+
+.img-holder {
+    width: 100%;
+    height: 100%;
+    -webkit-transition: all 1.2s;
+    -o-transition: all 1.2s;
+    transition: all 1.2s;
+}
+
+.img-holder:hover {
+    -webkit-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    transform: scale(1.1);
+}
+
+.holder-title {
+    font-size: 18px;
+    font-weight: 700;
+    position: absolute;
+    top: 0;
+    padding: 5px 15px;
+    margin: 15px;
+    background: #fff;
+    border-radius: 10px;
+}
+
+.holder-subtitle {
+    color: #ffffff;
+    text-shadow: 1px 1px 1px #000000;
+    font-size: 24px;
+    font-weight: bold;
+    position: absolute;
+    left: 10px;
+    bottom: 15px;
+    padding: 10px;
+    text-decoration: none;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    width: 30%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.6s;
+    animation-name: animatetop;
+    animation-duration: 0.6s;
+    border-radius: 10px;
+}
+
+.modal-header {
+    padding: 2px 5px;
+    color: #0d6efd;
+}
+
+.modal-body > p {
+    padding: 20px 20px;
+}
+
+.modal-body > img {
+    width: 100%;
+    height: 30vh;
+}
+
+.modal-footer {
+    padding: 15px;
+    color: white;
+    border-radius: 0 0 10px 10px;
+}
+
+@-webkit-keyframes animatetop {
+    from {
+        top:-300px; opacity:0
+    }
+    to {
+        top:0; opacity:1
+    }
+}
+
+@keyframes animatetop {
+    from {
+        top:-300px; opacity:0
+    }
+    to {
+        top:0; opacity:1
+    }
+}
+
 @media (hover: hover) and (pointer: fine) {
     .btn-up:hover {
         background-color: #0085ff91;
@@ -1308,6 +1418,10 @@ button:hover a.logout {
 
     main {
         width: 70%;
+    }
+
+    .modal-content {
+        width: 35%;
     }
 
 }
@@ -1489,6 +1603,10 @@ button:hover a.logout {
         margin: 40px auto;
     }
 
+    .modal-content {
+        width: 60%;
+    }
+
 }
 
 @media screen and (max-width: 768px) {
@@ -1659,6 +1777,10 @@ button:hover a.logout {
         width: 100%;
     }
 
+    .modal-content {
+        width: 70%;
+    }
+
 }
 
 @media screen and (max-width: 560px) {
@@ -1720,6 +1842,15 @@ button:hover a.logout {
         padding: 10px;
         margin-bottom: 30px;
         height: 150px;
+    }
+
+    .holder-container {
+        width: 100%;
+        height: 250px;
+    }
+
+    .modal-content {
+        width: 85%;
     }
 
 }
